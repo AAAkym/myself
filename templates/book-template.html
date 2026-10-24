@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>我的一辈子 · 人生记录（书版式）</title>
+<style>
+  /* ============ 我的一辈子 · 人生记录 书版式 ============
+     浏览器打开 → Ctrl+P → 另存为 PDF，即可打印。
+     纸张预设 A5，适合做一本拿在手里的书；要 A4 改 @page size。 */
+
+  @page { size: A5; margin: 18mm 16mm; }
+
+  :root {
+    --ink: #2b2620;          /* 墨色正文 */
+    --paper: #faf6ef;        /* 米白纸面 */
+    --faint: #8a7f6e;        /* 旧灰：注、出处 */
+    --line: #d8cfbf;         /* 细分隔线 */
+    --card: #f2ece0;         /* 切片底纹 */
+    --seal: #9c4a2f;         /* 章印红：仅用于出处小标 */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Noto Serif SC", "Songti SC", "SimSun", serif;
+    color: var(--ink);
+    background: var(--paper);
+    font-size: 12.5pt;
+    line-height: 2.05;
+    letter-spacing: 0.02em;
+    max-width: 46em;
+    margin: 0 auto;
+    padding: 2em 1.2em 4em;
+  }
+
+  /* ---- 封面 ---- */
+  .cover {
+    text-align: center;
+    padding: 6em 0 4em;
+    page-break-after: always;
+  }
+  .cover .title {
+    font-size: 2.4em;
+    letter-spacing: 0.35em;
+    margin-bottom: 0.6em;
+  }
+  .cover .subtitle { color: var(--faint); letter-spacing: 0.2em; }
+  .cover .who {
+    margin-top: 5em;
+    font-size: 1.15em;
+    letter-spacing: 0.3em;
+  }
+  .cover .period { color: var(--faint); margin-top: 0.8em; font-size: 0.9em; }
+
+  /* ---- 岁月锚时间线页 ---- */
+  .anchor-page { page-break-before: always; }
+  h2.section {
+    font-size: 1.3em;
+    letter-spacing: 0.25em;
+    margin: 2.2em 0 1.2em;
+    text-align: center;
+  }
+  .anchor-page h2.section + p.intro {
+    text-align: center;
+    color: var(--faint);
+    font-size: 0.88em;
+    margin-bottom: 2em;
+  }
+  table.anchors {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92em;
+    line-height: 1.7;
+  }
+  table.anchors th {
+    font-weight: normal;
+    color: var(--faint);
+    border-bottom: 1px solid var(--ink);
+    padding: 0.4em 0.6em;
+    text-align: left;
+    letter-spacing: 0.1em;
+  }
+  table.anchors td {
+    border-bottom: 1px dotted var(--line);
+    padding: 0.55em 0.6em;
+    vertical-align: top;
+  }
+  table.anchors td.y { white-space: nowrap; width: 5.5em; font-variant-numeric: tabular-nums; }
+  table.anchors td.age { color: var(--faint); white-space: nowrap; width: 4.5em; }
+  table.anchors td.src { color: var(--faint); font-size: 0.85em; }
+  .anchor-gap {
+    color: var(--faint);
+    padding: 0.55em 0.6em;
+    border-bottom: 1px dotted var(--line);
+    display: block;
+  }
+
+  /* ---- 章与正文 ---- */
+  h1.chapter {
+    page-break-before: always;
+    text-align: center;
+    font-size: 1.7em;
+    letter-spacing: 0.3em;
+    margin: 3em 0 0.4em;
+  }
+  .chapter .years {
+    display: block;
+    text-align: center;
+    color: var(--faint);
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+    margin-bottom: 2.6em;
+  }
+  p { text-indent: 2em; margin: 0 0 0.2em; }
+  p.noindent { text-indent: 0; }
+
+  /* 本人原话直引 */
+  blockquote.voice {
+    margin: 1.1em 0 1.1em 2em;
+    padding-left: 0.9em;
+    border-left: 2px solid var(--line);
+    color: var(--ink);
+  }
+
+  /* ---- 出处小标 ---- */
+  .source-mark {
+    display: block;
+    text-indent: 0;
+    font-size: 0.8em;
+    color: var(--seal);
+    letter-spacing: 0.08em;
+    margin: 0.4em 0 1.1em;
+  }
+  .source-mark::before { content: "〔"; }
+  .source-mark::after { content: "〕"; }
+
+  /* ---- 不确定标注：不确定是信息，不是缺陷 ---- */
+  .uncertain {
+    display: inline;
+    color: var(--faint);
+    font-size: 0.88em;
+  }
+  .uncertain::before { content: "（"; }
+  .uncertain::after { content: "）"; }
+
+  /* 两说并存 */
+  .two-versions { color: var(--faint); font-size: 0.88em; }
+  .two-versions::before { content: "〔两说："; }
+  .two-versions::after { content: "〕"; }
+
+  /* ---- 方言 / 口语小注 ---- */
+  .dialect { font-size: 0.85em; color: var(--faint); }
+
+  /* ---- 记忆切片：最小可用产出 ---- */
+  .slice {
+    page-break-inside: avoid;
+    margin: 2em 0;
+    padding: 1.4em 1.5em 1.2em;
+    background: var(--card);
+    border-radius: 2px;
+  }
+  .slice .slice-head {
+    font-size: 0.82em;
+    color: var(--seal);
+    letter-spacing: 0.12em;
+    margin-bottom: 0.9em;
+    text-indent: 0;
+  }
+  .slice .slice-head::before { content: "〔"; }
+  .slice .slice-head::after { content: "〕"; }
+  .slice p { text-indent: 2em; }
+  .slice p.first { text-indent: 0; }
+  .slice .source-mark { margin: 0.8em 0 0; }
+
+  /* ---- 照片位 ---- */
+  figure.photo {
+    margin: 1.6em auto;
+    text-align: center;
+    page-break-inside: avoid;
+  }
+  figure.photo img { max-width: 82%; }
+  figcaption {
+    font-size: 0.82em;
+    color: var(--faint);
+    margin-top: 0.5em;
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- 末页：没写完的一页 ---- */
+  .colophon {
+    page-break-before: always;
+    margin-top: 8em;
+    text-align: center;
+    color: var(--faint);
+    font-size: 0.9em;
+    line-height: 2.2;
+  }
+  .colophon .now { color: var(--ink); margin-top: 1.5em; }
+
+  @media print {
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 封面 ============ -->
+<section class="cover">
+  <div class="title">我的一辈子</div>
+  <div class="subtitle">人生记录</div>
+  <div class="who">　　　著　　</div>
+  <div class="period">一九九〇 —　至今</div>
+</section>
+
+<!-- ============ 岁月锚时间线 ============ -->
+<section class="anchor-page">
+  <h2 class="section">时间线</h2>
+  <p class="intro">这本书每一章的年份，都钉在下面这些事上。</p>
+  <table class="anchors">
+    <thead>
+      <tr><th>年份</th><th>年岁</th><th>事</th><th>出处</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="y">2008</td><td class="age">18</td><td>高考，考完那天下大雨</td><td class="src">相册</td></tr>
+      <tr><td class="y">2013</td><td class="age">23</td><td>3 月入职杭州，工位靠窗</td><td class="src">合同</td></tr>
+      <tr><td class="y">2016</td><td class="age">26</td><td>4 月搬进拱墅，一室一厅</td><td class="src">外卖地址</td></tr>
+      <tr><td class="y">2019</td><td class="age">29</td><td>3 月辞职，去了现在的城市</td><td class="src">邮件</td></tr>
+      <tr><td colspan="4" class="anchor-gap">2020 — 2024　　这段时间还没聊到，留着</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 正文章示例 ============ -->
+<h1 class="chapter">二〇一三，在杭州</h1>
+<span class="chapter years">2013 — 2016　·　23 岁 — 26 岁</span>
+
+<p class="noindent">工位是靠窗的，窗外是对面楼的水箱。</p>
+
+<blockquote class="voice">每天早上九点零五那班公交，人挤到门都关不上。我一般站在后门那根杆子旁边，能靠着。</blockquote>
+
+<p class="source-mark">第三次 · 相册二〇一三</p>
+
+<p>公司在十二楼，电梯每天十点以后才不排队。有段时间我特意早到二十分钟，就为了坐电梯不用等<span class="dialect">（现在想想挺傻的）</span>。</p>
+
+<figure class="photo">
+  <img src="photo-01.jpg" alt="二〇一三年的工位">
+  <figcaption>工位第一次拍，桌上那盆绿萝后来养死了</figcaption>
+</figure>
+
+<!-- ============ 不确定标注示例 ============ -->
+<p>第一份工资<span class="uncertain">我记得是四千二，不确定</span>，发下来那天请同组的人吃了顿饭，花了三百多。</p>
+<p class="source-mark">第四次 · 工资条</p>
+
+<!-- ============ 两说并存示例 ============ -->
+<p>搬家那天是个周末，<span class="two-versions">本人记得是四月，合同上是三月二十九</span>，反正天已经热了。</p>
+
+<!-- ============ 记忆切片示例 ============ -->
+<div class="slice">
+  <p class="slice-head">记忆切片 · 二〇一六 · 搬家</p>
+  <p class="first">钥匙是三把，房东给的时候用一根红绳拴着。</p>
+  <p>房子在六楼，没电梯。那天搬了七趟，最后一趟是书，两个纸箱，抬到四楼就不行了，坐在楼梯上歇了十分钟。楼下有家卖牛肉面的，八块钱一碗，我吃了两碗，吃完才想起来还没铺床。</p>
+  <p>那天晚上睡的床垫，直接放在地板上，窗户开着，风把窗帘吹到脸上。</p>
+  <p class="source-mark">第七次 · 外卖地址变更记录</p>
+</div>
+
+<!-- ============ 末页 ============ -->
+<section class="colophon">
+  <p>这本书没有结尾。</p>
+  <p>写到哪儿，就到哪儿。</p>
+  <p class="now">——「明年想把阳台封起来。」</p>
+</section>
+
+</body>
+</html>
